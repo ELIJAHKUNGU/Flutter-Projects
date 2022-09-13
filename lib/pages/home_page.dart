@@ -13,6 +13,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  var images = {
+    "balloning.png": "Balloning",
+    "hiking.png": "hiking",
+    "kayaking.png": "kayaking",
+    "snorkling.png": "snorkling"
+  };
   @override
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 3, vsync: this);
@@ -80,7 +86,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           )),
           Container(
             padding: const EdgeInsets.only(left: 20),
-            height: 200,
+            height: 220,
             width: double.maxFinite,
             child: TabBarView(
               controller: _tabController,
@@ -130,27 +136,38 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             height: 10,
           ),
           Container(
-            height: 100,
+            height: 120,
             width: double.maxFinite,
             margin: const EdgeInsets.only(left: 20),
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: 4,
                 itemBuilder: (_, index) {
-                  return Column(children: [
-                    Container(
-                      margin: const EdgeInsets.only(
-                        right: 15,
+                  return Container(
+                    margin: const EdgeInsets.only(right: 20),
+                    child: Column(children: [
+                      Container(
+                        //margin: const EdgeInsets.only(      right: 15,),
+                        width: 100,
+                        height: 80,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    "img/" + images.keys.elementAt(index)))),
                       ),
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                          image: DecorationImage(
-                              image: AssetImage("img/mountain.jpeg"))),
-                    )
-                  ]);
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        child: AppText(
+                          text: images.values.elementAt(index),
+                          color: AppColors.textColor2,
+                        ),
+                      )
+                    ]),
+                  );
                 }),
           )
         ],
