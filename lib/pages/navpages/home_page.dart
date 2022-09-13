@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:travelapp/misc/colors.dart';
 import 'package:travelapp/pages/widgets/app_large_text.dart';
+import 'package:travelapp/pages/widgets/app_text.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,7 +22,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: [
           //menu
           Container(
-            padding: const EdgeInsets.only(top: 70, left: 20),
+            padding: const EdgeInsets.only(top: 10, left: 20),
             child: Row(
               children: [
                 Icon(
@@ -41,7 +43,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
           ),
           SizedBox(
-            height: 40,
+            height: 10,
           ),
           //Discover text
           Container(
@@ -49,7 +51,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: AppLarge(text: "Discover"),
           ),
           SizedBox(
-            height: 30,
+            height: 10,
           ),
           //Tapbar
           Container(
@@ -62,6 +64,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 unselectedLabelColor: Colors.grey,
                 isScrollable: true,
                 indicatorSize: TabBarIndicatorSize.label,
+                indicator:
+                    CircleTabIndictor(color: AppColors.mainColor, radius: 4),
                 tabs: [
                   Tab(
                     text: "Places",
@@ -75,14 +79,111 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ]),
           )),
           Container(
-            height: 300,
+            padding: const EdgeInsets.only(left: 20),
+            height: 200,
             width: double.maxFinite,
             child: TabBarView(
-                controller: _tabController,
-                children: [Text("Hi"), Text("There"), Text("Bye")]),
+              controller: _tabController,
+              children: [
+                ListView.builder(
+                  itemCount: 3,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: const EdgeInsets.only(right: 25, top: 10),
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white,
+                          image: DecorationImage(
+                              image: AssetImage("img/mountain.jpeg"),
+                              fit: BoxFit.cover)),
+                    );
+                  },
+                ),
+                Text("There"),
+                Text("Bye")
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            margin: const EdgeInsets.only(left: 20, right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppLarge(
+                  text: "Explore more",
+                  size: 22,
+                ),
+                AppText(
+                  text: "See All",
+                  color: AppColors.textColor1,
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: 100,
+            width: double.maxFinite,
+            margin: const EdgeInsets.only(left: 20),
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 4,
+                itemBuilder: (_, index) {
+                  return Column(children: [
+                    Container(
+                      margin: const EdgeInsets.only(
+                        right: 15,
+                      ),
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white,
+                          image: DecorationImage(
+                              image: AssetImage("img/mountain.jpeg"))),
+                    )
+                  ]);
+                }),
           )
         ],
       ),
     );
+  }
+}
+
+class CircleTabIndictor extends Decoration {
+  final Color color;
+  double radius;
+  CircleTabIndictor({required this.color, required this.radius});
+
+  @override
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
+    // TODO: implement createBoxPainter
+    return _CirclePainter(color: color, radius: radius);
+  }
+}
+
+class _CirclePainter extends BoxPainter {
+  final Color color;
+  double radius;
+  _CirclePainter({required this.color, required this.radius});
+  @override
+  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
+    // TODO: implement paint
+    Paint _paint = Paint();
+    _paint.color = color;
+    _paint.isAntiAlias = true;
+    final Offset circleOffset = Offset(
+        configuration.size!.width / 2 - radius / 2,
+        configuration.size!.height - radius);
+    canvas.drawCircle(offset + circleOffset, radius, _paint);
   }
 }
