@@ -61,7 +61,7 @@ class _DetailPageState extends State<DetailPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AppLarge(text: "Yosemite"),
+                      AppLarge(text: "Aberdare Ranges"),
                       AppText(text: "\KSH 250"),
                     ],
                   )
